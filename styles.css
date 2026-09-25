@@ -1,0 +1,65 @@
+.veluno-preview-runtime-status {
+    align-items: center;
+    cursor: pointer;
+    display: inline-flex;
+    gap: 6px;
+    max-width: 300px;
+    padding: 0 8px;
+    user-select: none;
+}
+
+.veluno-preview-runtime-status:hover {
+    background: rgba(127, 127, 127, 0.14);
+}
+
+.preview-runtime-dot {
+    background: #8b949e;
+    border-radius: 50%;
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+}
+
+.veluno-preview-runtime-status[data-state="running"] .preview-runtime-dot,
+.veluno-preview-runtime-status[data-state="static"] .preview-runtime-dot {
+    background: #2ea043;
+    box-shadow: 0 0 0 2px rgba(46, 160, 67, 0.18);
+}
+
+.veluno-preview-runtime-status[data-state="starting"] .preview-runtime-dot,
+.veluno-preview-runtime-status[data-state="detecting"] .preview-runtime-dot {
+    animation: preview-runtime-pulse 1s ease-in-out infinite;
+    background: #d29922;
+}
+
+.veluno-preview-runtime-status[data-state="error"] .preview-runtime-dot,
+.veluno-preview-runtime-status[data-state="missing-runtime"] .preview-runtime-dot {
+    background: #f85149;
+}
+
+.veluno-preview-runtime-status[data-state="needs-trust"] .preview-runtime-dot,
+.veluno-preview-runtime-status[data-state="unsupported"] .preview-runtime-dot {
+    background: #db6d28;
+}
+
+.preview-runtime-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.preview-runtime-error {
+    color: #f85149;
+}
+
+.error-dialog pre {
+    max-height: 220px;
+    overflow: auto;
+    text-align: left;
+    white-space: pre-wrap;
+}
+
+@keyframes preview-runtime-pulse {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 1; }
+}

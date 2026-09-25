@@ -1,0 +1,43 @@
+{
+  "title": "Universal Local Preview",
+  "name": "github-veluno-llc-veluno-universal-local-preview",
+  "description": "Starts local PHP previews and safely edits literal PHP markup visually in Phoenix Code.",
+  "version": "0.2.3",
+  "license": "MIT",
+  "author": "VELUNO LLC (https://github.com/VELUNO-LLC)",
+  "homepage": "https://github.com/VELUNO-LLC/veluno-universal-local-preview",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VELUNO-LLC/veluno-universal-local-preview.git"
+  },
+  "bugs": {
+    "url": "https://github.com/VELUNO-LLC/veluno-universal-local-preview/issues"
+  },
+  "engines": {
+    "brackets": ">=3.0.0"
+  },
+  "categories": "livedevelopment",
+  "keywords": [
+    "phcode",
+    "phoenix-code",
+    "live-preview",
+    "php",
+    "local-server"
+  ],
+  "files": [
+    "main.js",
+    "path-utils.js",
+    "styles.css",
+    "node/",
+    "README.md",
+    "LICENSE"
+  ],
+  "nodeConfig": {
+    "nodeIsRequired": true,
+    "main": "node/index.js"
+  },
+  "scripts": {
+    "test": "node --check main.js && node --check path-utils.js && node --check node/index.js && node --check node/runtime-manager.js && node --check node/visual-edit.js && node --test test/*.test.js",
+    "package:release": "rm -f dist/extension.zip && zip -r -q dist/extension.zip package.json main.js path-utils.js styles.css node README.md LICENSE -x '*.DS_Store'"
+  }
+}

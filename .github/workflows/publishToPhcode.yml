@@ -1,0 +1,14 @@
+name: Publish extension to phcode.dev extension store
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build-tasks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish GitHub release to Phoenix Extension Store
+        run: |
+          curl --fail-with-body "https://publish.phcode.dev/publishGithubRelease?releaseRef=${{ github.event.repository.full_name }}:$GITHUB_REF"
