@@ -4,11 +4,50 @@ on:
   release:
     types:
       - published
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing Git tag to publish
+        required: true
+        default: 0.2.3
+
+permissions:
+  contents: write
 
 jobs:
-  build-tasks:
+  publish-existing-release:
+    if: github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
       - name: Publish GitHub release to Phoenix Extension Store
         run: |
           curl --fail-with-body "https://publish.phcode.dev/publishGithubRelease?releaseRef=${{ github.event.repository.full_name }}:$GITHUB_REF"
+
+  create-and-publish-release:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ inputs.tag }}
+    steps:
+      - name: Check out the tagged source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build extension.zip
+        run: npm run package:release
+
+      - name: Create GitHub release
+        run: |
+          gh release create "$RELEASE_TAG" dist/extension.zip \
+            --verify-tag \
+            --title "Universal Local Preview $RELEASE_TAG" \
+            --notes-file CHANGELOG.md
+
+      - name: Publish release to Phoenix Extension Store
+        run: |
+          curl --fail-with-body "https://publish.phcode.dev/publishGithubRelease?releaseRef=${{ github.repository }}:refs/tags/$RELEASE_TAG"
